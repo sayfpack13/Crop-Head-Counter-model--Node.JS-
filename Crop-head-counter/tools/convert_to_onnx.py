@@ -13,7 +13,7 @@ in_features = model.roi_heads.box_predictor.cls_score.in_features
 model.roi_heads.box_predictor = torchvision.models.detection.faster_rcnn.FastRCNNPredictor(in_features, num_classes)
 
 # Load model weights safely with weights_only=True
-model.load_state_dict(torch.load('fasterrcnn_resnet50_fpn.pth', map_location=device))
+model.load_state_dict(torch.load('../trained-models/fasterrcnn_resnet50_fpn.pth', map_location=device))
 model.to(device)
 model.eval()
 
@@ -24,7 +24,7 @@ dummy_input = torch.randn(1, 3, IMAGE_WIDTH, IMAGE_HEIGHT).to(device)
 torch.onnx.export(
     model, 
     dummy_input, 
-    "fasterrcnn_resnet50_fpn.onnx",
+    "../trained-models/fasterrcnn_resnet50_fpn.onnx",
     opset_version=11,
     input_names=["input"],
     output_names=["boxes", "labels", "scores"],  # Adjust according to actual ONNX outputs
